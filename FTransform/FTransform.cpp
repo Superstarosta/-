@@ -110,14 +110,32 @@ int main()
 
 	cout << "Введите нижнюю границу: ";
 	cin >> low;
-	cout << endl;
 
 	cout << "Введите верхнюю границу: ";
 	cin >> hight;
-	cout << endl;
 
 	FilterLessThen(low, InOut, countForAnalyse);
 	FilterMoreThen(hight, InOut, countForAnalyse);
+
+	ofstream afterFFOut;
+	cout << "Введите имя файла дла отфильтрованного результата преобразования фурье в формате: имяфайла.txt\n";
+	char f3name[80];
+	cin >> f3name;
+
+	afterFFOut.open(f3name);
+
+	if (!afterFFOut)
+	{
+		cout << "Ошибка создания файла для результатов преобразования" << endl;
+		return -1;
+	}
+
+	afterFFOut << "Length\tAmplitude\tPhase\n";
+
+	for (int i = 0; i < countForAnalyse; ++i)
+		afterFOut << inputData[i].X << "\t" << InOut[i].Re << "\t" << InOut[i].Im << "\n";
+
+	afterFFOut.close();
 
 #pragma endregion
 
@@ -148,7 +166,7 @@ int main()
 		return -2;
 	}
 
-	afterBackFOut << "Length\tAmplitude\t";
+	afterBackFOut << "Length\tAmplitude\n";
 
 	for (int i = 0; i < countForAnalyse; ++i)
 		afterBackFOut << inputData[i].X << "\t" << InOut[i].Re <<"\n";
